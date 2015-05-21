@@ -89,13 +89,11 @@ public class JpArray {
 	}
 	
 	// Helper function, follows the trails...
-	private Object JpArrayGetHelper(List<Object> arr, int curDimInd) {
+	private Object JpArrayGetHelper(List<Object> arr, int curDimInd, int[] indices) {
 		if(curDimInd == dimensions.length) {
-			
+			return arr.get(indices[curDimInd-1]);
 		}
-		
-		
-		return null;
+		return JpArrayGetHelper((List<Object>) arr.get(indices[curDimInd]), curDimInd+1, indices);
 	}
 	
 	
