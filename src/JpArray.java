@@ -16,21 +16,52 @@ public class JpArray {
 	}
 	
 	/**
-	 * Constructs a n-dimensional JpArray of zeros.
+	 * Constructs a n-dimensional JpArray of doubles.
 	 * @param dimensions
+	 * @param option : Can be of "random","random whole","zeros", A double 
 	 */
-	JpArray(int... dimensions) {
+	JpArray(Object arg, int... dimensions) {
 		this.dimensions = dimensions;
-		// Create initial ArrayList
+		Random rand = new Random();
+		double value = 0;
+		int flag = 0;
+		// Determine the option
+		if(arg instanceof String && ((String) arg).compareTo("random") == 0) {
+			flag = 1;
+		}
+		else if(arg instanceof String && ((String) arg).compareTo("random whole") == 0) {
+			flag = 2;
+		}
+		else if(arg instanceof String && ((String) arg).compareTo("zeros") == 0) {
+			value = 0;
+		}
+		else if(arg instanceof Integer || arg instanceof Double) {
+			value = (double) arg;
+		}
+		else {
+			value = 0;
+		}
+		
+		// Create array
 		List<Object> temp = new ArrayList<Object>(dimensions[0]);
 		if(dimensions.length > 1) { // nd-array
-			JpArrayHelper(temp, 1);
+			JpArrayHelper(temp, 1, flag, value);
 			elements = temp;
 		}
 		else { // 1d-array
 			elements = temp;
 			for(int i=0; i<dimensions[0]; i++) {
-				elements.add(i, 0.);
+				if(flag == 0) {
+					elements.add(i, value);
+				}
+				else if (flag == 1) { 
+					value = rand.nextDouble();
+					elements.add(i, value);
+				}
+				else {
+					value = rand.nextInt(100);
+					elements.add(i, value);
+				}
 			}
 		}
 	}
@@ -67,34 +98,53 @@ public class JpArray {
 	 * @return a double or N-dimensional JpArray.
 	 */
 	public Object getValue(int... indices) {
-		
-		
-		return new Double(0);
+		for(int i=0; i<indices.length; i++) { // Catch Error
+			if(i == dimensions.length || indices[i] > dimensions[i]) {
+				return null;
+			}
+		}
+		if(indices.length == 1) {
+			return elements.get(indices[0]);
+		}
+		else {
+			return JpArrayGetHelper((List<Object>) elements.get(indices[0]), 1, indices);
+		}
 	}
 	
+	/** Helpers */
 	// This helper function recursively creates the N-dimensional array and fills it with 0.0s.
-	private void JpArrayHelper(List<Object> arr, int curDimInd) {
+	private void JpArrayHelper(List<Object> arr, int curDimInd, int flag, double value) {
 		if(curDimInd == dimensions.length) {
+			Random rand = new Random();
 			for(int i=0; i<dimensions[curDimInd-1]; i++) {
-				arr.add(i, 0.);
+				if(flag == 0) {
+					arr.add(i, value);
+				}
+				else if (flag == 1) { 
+					value = rand.nextDouble();
+					arr.add(i, value);
+				}
+				else {
+					value = rand.nextInt(100);
+					arr.add(i, value);
+				}
 			}
 			return;
 		}
 		else {
 			for(int i=0; i<dimensions[curDimInd-1]; i++) {
 				arr.add(i, new ArrayList<Object>(dimensions[curDimInd]));
-				JpArrayHelper((List<Object>) arr.get(i), curDimInd+1);
+				JpArrayHelper((List<Object>) arr.get(i), curDimInd+1, flag, value);
 			}
 		}
 	}
 	
-	// Helper function, follows the trails...
+	// Helper: Recursively finds the correct index
 	private Object JpArrayGetHelper(List<Object> arr, int curDimInd, int[] indices) {
-		if(curDimInd == dimensions.length) {
-			return arr.get(indices[curDimInd-1]);
+		if(curDimInd == dimensions.length-1) {
+			return arr.get(indices[curDimInd]);
 		}
 		return JpArrayGetHelper((List<Object>) arr.get(indices[curDimInd]), curDimInd+1, indices);
 	}
-	
 	
 }
