@@ -20,14 +20,14 @@ public class Test {
 		// Test obj = new Test();
 		// int[] x, y;
 		// int q[], z;
-		
-		int[] dim = {3,3};
 		//String x = "yo";
 		//String y = x;
 		//x = "boo";
 		//System.out.println(x);
 		//System.out.println(y);
-		JpArray v = new JpArray(dim);
+		
+		int[] dim = {3,3};
+		JpArray v = new JpArray("random", dim);
 		System.out.println(Arrays.toString(v.getShape()));
 		System.out.println(v.printArray());
 		

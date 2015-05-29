@@ -56,6 +56,7 @@ public class JpArray {
 				}
 				else if (flag == 1) { 
 					value = rand.nextDouble();
+					value = (double) Math.round(value * 100000) / 100000;
 					elements.add(i, value);
 				}
 				else {
@@ -93,7 +94,7 @@ public class JpArray {
 	}
 	
 	/**
-	 * Returns the value at the specified index of the JpArray
+	 * Returns the object (single element or JpArray) at the specified index of the JpArray
 	 * @param indices
 	 * @return a double or N-dimensional JpArray.
 	 */
@@ -112,7 +113,14 @@ public class JpArray {
 	}
 	
 	/** Helpers */
-	// This helper function recursively creates the N-dimensional array and fills it with 0.0s.
+	
+	/**
+	 * Helper: Recursively creates the N-dimensional array and fills it with 0.0s.
+	 * @param arr
+	 * @param curDimInd
+	 * @param flag
+	 * @param value
+	 */
 	private void JpArrayHelper(List<Object> arr, int curDimInd, int flag, double value) {
 		if(curDimInd == dimensions.length) {
 			Random rand = new Random();
@@ -122,6 +130,7 @@ public class JpArray {
 				}
 				else if (flag == 1) { 
 					value = rand.nextDouble();
+					value = (double) Math.round(value * 100000) / 100000;
 					arr.add(i, value);
 				}
 				else {
@@ -139,12 +148,28 @@ public class JpArray {
 		}
 	}
 	
-	// Helper: Recursively finds the correct index
+	/**
+	 * Helper: Recursively finds the correct index
+	 * @param arr
+	 * @param curDimInd
+	 * @param indices
+	 * @return
+	 */
 	private Object JpArrayGetHelper(List<Object> arr, int curDimInd, int[] indices) {
 		if(curDimInd == dimensions.length-1) {
 			return arr.get(indices[curDimInd]);
 		}
 		return JpArrayGetHelper((List<Object>) arr.get(indices[curDimInd]), curDimInd+1, indices);
+	}
+	
+	/**
+	 * Helper: Recursively sets the index values of the JpArray
+	 * @param arr
+	 * @param curDimInd
+	 * @param indices
+	 */
+	private void JpArraySetHelper(List<Object> arr, int curDimInd, int[] indices) {
+		
 	}
 	
 }
