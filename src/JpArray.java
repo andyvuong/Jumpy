@@ -95,13 +95,13 @@ public class JpArray {
 	
 	/**
 	 * Returns the object (single element or JpArray) at the specified index of the JpArray
-	 * @param indices
-	 * @return a double or N-dimensional JpArray.
+	 * @param Indices.
+	 * @return A double or N-dimensional JpArray.
 	 */
 	public Object getValue(int... indices) {
 		for(int i=0; i<indices.length; i++) { // Catch Error
 			if(i == dimensions.length || indices[i] > dimensions[i]) {
-				return null;
+				throw new IllegalArgumentException("You entered invalid indices!");
 			}
 		}
 		if(indices.length == 1) {
@@ -111,6 +111,26 @@ public class JpArray {
 			return JpArrayGetHelper((List<Object>) elements.get(indices[0]), 1, indices);
 		}
 	}
+	
+	/**
+	 * Sets the specified index to a double.
+	 * @param arg 
+	 * @param indices
+	 */
+	public void setValue(Object arg, int... indices) {
+		for(int i=0; i<indices.length; i++) { // Catch Error
+			if(i == dimensions.length || indices[i] > dimensions[i]) {
+				throw new IllegalArgumentException("You entered invalid indices!");
+			}
+		}
+		if(arg instanceof JpArray || arg instanceof Double) {
+			JpArraySetHelper((List<Object>) elements.get(indices[0]), 1, indices, arg);
+		}
+		else {
+			throw new IllegalArgumentException("You entered an invalid argument!");
+		}
+	}
+	
 	
 	/** Helpers */
 	
@@ -168,7 +188,7 @@ public class JpArray {
 	 * @param curDimInd
 	 * @param indices
 	 */
-	private void JpArraySetHelper(List<Object> arr, int curDimInd, int[] indices) {
+	private void JpArraySetHelper(List<Object> arr, int curDimInd, int[] indices, Object arg) {
 		
 	}
 	

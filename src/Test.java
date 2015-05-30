@@ -27,8 +27,10 @@ public class Test {
 		//System.out.println(y);
 		
 		int[] dim = {3,3};
-		JpArray v = new JpArray("random", dim);
+		int[] ind = {2,2};
+		JpArray v = new JpArray(4.0, dim);
 		System.out.println(Arrays.toString(v.getShape()));
+		v.setValue(2.0, ind);
 		System.out.println(v.printArray());
 		
 	}
