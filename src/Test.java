@@ -27,12 +27,13 @@ public class Test {
 		//System.out.println(y);
 		
 		int[] dim = {3};
-		JpArray v = new JpArray(4.0, dim);
-		System.out.println(Arrays.toString(v.getShape()));
-		
-		int[] ind = {0};
-		v.setValue(2.0, ind);
+		JpArray v = new JpArray(2.0, dim);
+		JpArray x = new JpArray(10.0, dim);
 		System.out.println(v.printArray());
+		System.out.println(x.printArray());
+		
+		JpArray a = LinearAlgebra.dot(x, v);
+		System.out.println(a.printArray());
 		
 	}
 

@@ -10,6 +10,10 @@ public class JpArray {
 	private List<Object> elements;
 	
 	/** Constructors */
+	
+	/**
+	 * Zero argument constructor.
+	 */
 	JpArray() {
 		dimensions = new int[]{0};
 		elements = new ArrayList<Object>(0);
@@ -17,6 +21,7 @@ public class JpArray {
 	
 	/**
 	 * Constructs a n-dimensional JpArray of doubles.
+	 * 
 	 * @param dimensions
 	 * @param option : Can be of "random","random whole","zeros", A double 
 	 */
@@ -71,6 +76,7 @@ public class JpArray {
 	
 	/**
 	 * Print the JpArray's shape to console.
+	 * 
 	 * @return dimensions
 	 */
 	public String printShape() {
@@ -83,6 +89,7 @@ public class JpArray {
 	
 	/**
 	 * Print the JpArray's elements to console.
+	 * 
 	 * @return string array
 	 */
 	public String printArray() {
@@ -94,7 +101,8 @@ public class JpArray {
 	}
 	
 	/**
-	 * Returns the object (single element or JpArray) at the specified index of the JpArray
+	 * Returns the object (single element or JpArray) at the specified index of the JpArray.
+	 * 
 	 * @param Indices.
 	 * @return A double or N-dimensional JpArray.
 	 */
@@ -114,6 +122,7 @@ public class JpArray {
 	
 	/**
 	 * Sets the specified index to a double. Currently only supports 1-D and 2-D JpArrays.
+	 * 
 	 * @param arg 
 	 * @param indices
 	 */
@@ -139,11 +148,45 @@ public class JpArray {
 		}
 	}
 	
+	/**
+	 * Transposes a JpArray and returns a new JpArray. The original is left unchanged. Only supports 1-D and 2-D JpArrays. 
+	 * 
+	 * @return newJp A JpArray containing the result.
+	 */
+	public JpArray transpose() {
+		if(dimensions.length > 2) {
+			throw new IllegalArgumentException("Can't tranpose JpArrays that have greater than 2 dimensions!");	
+		}
+		else {
+			if(dimensions.length == 1) {
+				int[] newDimensions = {dimensions[0], 1};
+				JpArray newJp = new JpArray(0.0, newDimensions);
+				for(int i=0; i<dimensions[0]; i++) {
+					int[] ind = {i,0};
+					newJp.setValue(elements.get(i), ind);
+				}
+				return newJp;
+			}
+			else { // 2D case
+				int[] newDimensions = {dimensions[0], dimensions[1]};
+				JpArray newJp = new JpArray(0.0, newDimensions);
+				for(int i=0; i<dimensions[0]; i++) {
+					for(int j=0; j<dimensions[1]; j++) {
+						int[] indOld = {i,j};
+						int[] indNew = {j, i};
+						newJp.setValue(this.getValue(indOld), indNew);
+					}
+				}
+				return newJp;
+			}
+		}
+	}
 	
 	/** Helpers */
 	
 	/**
 	 * Helper: Recursively creates the N-dimensional array and fills it with 0.0s.
+	 * 
 	 * @param arr
 	 * @param curDimInd
 	 * @param flag
@@ -177,7 +220,8 @@ public class JpArray {
 	}
 	
 	/**
-	 * Helper: Recursively finds the correct index
+	 * Helper: Recursively finds the correct index.
+	 * 
 	 * @param arr
 	 * @param curDimInd
 	 * @param indices
@@ -191,7 +235,8 @@ public class JpArray {
 	}
 	
 	/**
-	 * Helper: Recursively sets the index values of the JpArray
+	 * Helper: Recursively sets the index values of the JpArray.
+	 * 
 	 * @param arr
 	 * @param curDimInd
 	 * @param indices

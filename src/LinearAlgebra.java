@@ -4,6 +4,8 @@
 
 public class LinearAlgebra {
 
+
+	
 	/**
 	 * Take the inner product of a (m x n) and (p x q) JpArrays. In the case of vector multiplication (1-D JpArrays), a scalar is returned as a JpArray of one index.
 	 *
@@ -11,15 +13,16 @@ public class LinearAlgebra {
 	 * @param B
 	 * @return mtx A JpArray containing the result.
 	 */
-	public static JpArray[] dot(JpArray A, JpArray B) {
+	public static JpArray dot(JpArray A, JpArray B) {
 		int[] ADim = A.getShape();
 		int[] BDim = B.getShape();
-		if(ADim.length == 1 || BDim.length == 1) {
-			
-			
+		if(ADim.length == 1 || BDim.length == 1 && ADim[0] == BDim[0]) {
+			JpArray newJp = new JpArray(0.0, ADim);
+			for(int i=0; i<ADim[0]; i++) {
+				newJp.setValue((Double) A.getValue(i) * (Double) B.getValue(i), i);
+			}
+			return newJp;
 		}
-		
-		
 		
 		return null;
 	}
