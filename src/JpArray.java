@@ -113,18 +113,26 @@ public class JpArray {
 	}
 	
 	/**
-	 * Sets the specified index to a double.
+	 * Sets the specified index to a double. Currently only supports 1-D and 2-D JpArrays.
 	 * @param arg 
 	 * @param indices
 	 */
 	public void setValue(Object arg, int... indices) {
+		if(indices.length > 2 || (indices.length == 1 && dimensions.length == 2)) {
+			throw new IllegalArgumentException("You entered invalid indices!");	
+		}
 		for(int i=0; i<indices.length; i++) { // Catch Error
 			if(i == dimensions.length || indices[i] > dimensions[i]) {
 				throw new IllegalArgumentException("You entered invalid indices!");
 			}
 		}
 		if(arg instanceof JpArray || arg instanceof Double) {
-			JpArraySetHelper((List<Object>) elements.get(indices[0]), 1, indices, arg);
+			if(indices.length == 1) {
+				elements.set(indices[0], arg);
+			}
+			else {
+				JpArraySetHelper((List<Object>) elements.get(indices[0]), 1, indices, arg);
+			}
 		}
 		else {
 			throw new IllegalArgumentException("You entered an invalid argument!");
@@ -189,7 +197,12 @@ public class JpArray {
 	 * @param indices
 	 */
 	private void JpArraySetHelper(List<Object> arr, int curDimInd, int[] indices, Object arg) {
-		
+		if(curDimInd == dimensions.length-1) {
+			arr.set(indices[curDimInd], arg);
+		}
+		else { // temporary code until this method supports more than 2-D.
+			return;
+		}
 	}
 	
 }

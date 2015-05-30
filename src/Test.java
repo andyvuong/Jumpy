@@ -26,10 +26,11 @@ public class Test {
 		//System.out.println(x);
 		//System.out.println(y);
 		
-		int[] dim = {3,3};
-		int[] ind = {2,2};
+		int[] dim = {3};
 		JpArray v = new JpArray(4.0, dim);
 		System.out.println(Arrays.toString(v.getShape()));
+		
+		int[] ind = {0};
 		v.setValue(2.0, ind);
 		System.out.println(v.printArray());
 		
