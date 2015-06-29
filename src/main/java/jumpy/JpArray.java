@@ -2,6 +2,8 @@
  * @author Andy Vuong
  */
 
+package jumpy;
+
 import java.util.*;
 
 public class JpArray {
@@ -14,7 +16,7 @@ public class JpArray {
 	/**
 	 * Zero argument constructor.
 	 */
-	JpArray() {
+	public JpArray() {
 		dimensions = new int[]{0};
 		elements = new ArrayList<Object>(0);
 	}
@@ -25,7 +27,7 @@ public class JpArray {
 	 * @param dimensions
 	 * @param option : Can be of "random","random whole","zeros", A double 
 	 */
-	JpArray(Object arg, int... dimensions) {
+	public JpArray(Object arg, int... dimensions) {
 		this.dimensions = dimensions;
 		Random rand = new Random();
 		double value = 0;
@@ -41,7 +43,7 @@ public class JpArray {
 			value = 0;
 		}
 		else if(arg instanceof Integer || arg instanceof Double) {
-			value = (double) arg;
+		//	value = (double) arg;
 		}
 		else {
 			value = 0;
