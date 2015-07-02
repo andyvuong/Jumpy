@@ -136,19 +136,18 @@ public class JpArray {
 		if(shape.length > 1 && shape.length < 3) {
 			int[] newShape = {shape[1], shape[0]};
 			JpArray newArr = new JpArray(0.0, newShape);
-			for(int i=0; i<shape[0]; i++) {
-				for(int j=0; j<shape[1]; j++) {
+			for(int i=0; i<shape[1]; i++) {
+				for(int j=0; j<shape[0]; j++) {
 					int[] oldInd = {i, j};
 					int[] newInd = {j, i};
 					newArr.setValue(this.getValue(oldInd), newInd);
 				}
-				return newArr;
 			}
+			return newArr;
 		}
 		else {
 			throw new IllegalArgumentException("transpose() is currently only supported for JpArrays of 1-D and 2-D.");
 		}
-		return null;
 	}
 	
 	
