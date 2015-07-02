@@ -29,7 +29,7 @@ public class JpArray {
 	 * 					a double <- fills array with a value of the user's choice.
 	 * @param dim
 	 */
-	public JpArray(Object options ,int ...dim) {
+	public JpArray(Object options, int ...dim) {
 		int dimensionLength = dim.length;
 		size = 1;
 		shape = new int[dimensionLength];
@@ -121,6 +121,35 @@ public class JpArray {
 		return size;
 	}
 	
+	/**
+	 * Prints the array as a flat 1-D array.
+	 */
+	public void printArrayFlat() {
+		System.out.println(Arrays.toString(elements));
+	}
+	
+	/**
+	 * Returns the transpose of the current JpArray object as a new object. Currently only supported for 1-D and 2-D arrays.
+	 * @return newArr The transposed JpArray.
+	 */
+	public JpArray transpose() {
+		if(shape.length > 1 && shape.length < 3) {
+			int[] newShape = {shape[1], shape[0]};
+			JpArray newArr = new JpArray(0.0, newShape);
+			for(int i=0; i<shape[0]; i++) {
+				for(int j=0; j<shape[1]; j++) {
+					int[] oldInd = {i, j};
+					int[] newInd = {j, i};
+					newArr.setValue(this.getValue(oldInd), newInd);
+				}
+				return newArr;
+			}
+		}
+		else {
+			throw new IllegalArgumentException("transpose() is currently only supported for JpArrays of 1-D and 2-D.");
+		}
+		return null;
+	}
 	
 	
 	
