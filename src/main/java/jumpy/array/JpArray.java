@@ -122,13 +122,6 @@ public class JpArray {
 	}
 	
 	/**
-	 * Prints the array as a flat 1-D array.
-	 */
-	public void printArrayFlat() {
-		System.out.println(Arrays.toString(elements));
-	}
-	
-	/**
 	 * Returns the transpose of the current JpArray object as a new object. Currently only supported for 1-D and 2-D arrays.
 	 * @return newArr The transposed JpArray.
 	 */
@@ -150,6 +143,91 @@ public class JpArray {
 		}
 	}
 	
+	/**
+	 * Prints the array as a flat 1-D array.
+	 */
+	public void printArrayFlat() {
+		System.out.println(Arrays.toString(elements));
+	}
 	
+	/**
+	 * Prints the shape of the JpArray
+	 */
+	public void printShape() {
+		System.out.println(Arrays.toString(shape));		
+	}
+	
+	/**
+	 * Prints the JpArray. Currently only supported for 1-D and 2-D arrays.
+	 */
+	public void printArray() {
+		if(shape.length > 2) {
+			System.out.println("print() currently only supports 1-D and 2-D arrays!");
+		}
+		else if(shape.length == 1) {
+			System.out.println(Arrays.toString(elements));
+		}
+		else {
+			String arrStr = "[";
+			for(int i=0; i<shape[0]; i++) {
+				arrStr += "[";
+				for(int j=0; j<shape[1]; j++) {
+					arrStr += Double.toString(this.getValue(i,j))+", "; // to string
+				}
+				arrStr += "]";
+			}
+			arrStr = arrStr.replaceAll(", ]", "], \n ");
+			arrStr = arrStr.substring(0, arrStr.length()-4);
+			arrStr+="]";
+			System.out.println(arrStr);
+		}
+	}
+	
+	/**
+	 * Adds two JpArrays of matching dimensions together and returns the resulting JpArray. Currently only supported for 1-D and 2-D arrays.
+	 * @param v
+	 * @param w
+	 */
+	public static JpArray add(JpArray v, JpArray w) {
+		if(!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
+			throw new IllegalArgumentException("Shape/Dimension mis-match. JpArray arguments must be of 1-D or 2-D and have the same shapes.");
+		}
+		JpArray newArr = new JpArray(0.0, v.getShape());
+		for(int i=0; i<v.size; i++) {
+			newArr.elements[i] = v.elements[i] + w.elements[i];
+		}
+		return newArr;
+	}
+	
+	/**
+	 * Subtracts JpArray v from JpArray w of matching dimensions and returns the resulting JpArray. Currently only supported for 1-D and 2-D arrays.
+	 * @param v
+	 * @param w
+	 */
+	public static JpArray subtract(JpArray v, JpArray w) {
+		if(!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
+			throw new IllegalArgumentException("Shape/Dimension mis-match. JpArray arguments must be of 1-D or 2-D and have the same shapes.");
+		}
+		JpArray newArr = new JpArray(0.0, v.getShape());
+		for(int i=0; i<v.size; i++) {
+			newArr.elements[i] = v.elements[i] - w.elements[i];
+		}
+		return newArr;
+	}
+	
+	// true if dimensions of JpArray match by level and shape
+	private static boolean shapesMatch(JpArray v, JpArray w) {
+		int[] shape1 = v.shape;
+		int[] shape2 = w.shape;
+		if(shape1.length == shape2.length) {
+			for(int i=0; i<shape1.length; i++) {
+				if(shape1[i] != shape2[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 	
 }
