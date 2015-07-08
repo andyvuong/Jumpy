@@ -185,8 +185,9 @@ public class JpArray {
 	
 	/**
 	 * Adds two JpArrays of matching dimensions together and returns the resulting JpArray. Currently only supported for 1-D and 2-D arrays.
-	 * @param v
-	 * @param w
+	 * @param v a JpArray
+	 * @param w a JpArray
+	 * @return newArr The resulting JpArray
 	 */
 	public static JpArray add(JpArray v, JpArray w) {
 		if(!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
@@ -201,8 +202,9 @@ public class JpArray {
 	
 	/**
 	 * Subtracts JpArray v from JpArray w of matching dimensions and returns the resulting JpArray. Currently only supported for 1-D and 2-D arrays.
-	 * @param v
-	 * @param w
+	 * @param v a JpArray
+	 * @param w a JpArray
+	 * @return newArr The resulting JpArray
 	 */
 	public static JpArray subtract(JpArray v, JpArray w) {
 		if(!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
@@ -213,6 +215,83 @@ public class JpArray {
 			newArr.elements[i] = v.elements[i] - w.elements[i];
 		}
 		return newArr;
+	}
+	
+	/**
+	 * Takes the inner product if v and w are vectors, else performs a matrix multiply if v and w are 2-D and returns the resulting JpArray. Currently only supported for 1-D and 2-D arrays.
+	 * The result should be casted into the appropriate return object type.
+	 * @param v a JpArray
+	 * @param w a JpArray
+	 * @return value a Double class object or JpArray object
+	 */
+	public static Object dot(JpArray v, JpArray w) {
+		if(v.shape.length > 2 || w.shape.length > 2) {
+			throw new IllegalArgumentException("JpArray arguments must be of 1-D or 2-D");
+		}
+		try {
+			int bit = validateDimensions(v,w);
+			if(bit == 0) {
+				JpArray newArr = matrixMultiply(v, w);
+				return newArr;
+			}
+			else if(bit == 1) {
+				Double value = innerProduct(v, w);
+				return value;
+			}
+			else {
+				return null;
+			}
+		}
+		catch (IllegalArgumentException e) {
+			System.out.println("JpArray dimension mis-match!");
+			return null;
+		}
+	}
+	
+	// checks whether or not the dimensions of arrays are fine
+	private static int validateDimensions(JpArray v, JpArray w) throws IllegalArgumentException {
+		if(v.shape.length > 1) {
+			if(v.shape[1] != w.shape[0]) {
+				throw new IllegalArgumentException();
+			}
+			return 0;
+		}
+		else if(v.shape.length < 2) {
+			if(v.shape[0] != w.shape[0]) {
+				throw new IllegalArgumentException();
+			}
+			return 1;
+		}
+		else {
+			System.out.println("temp");
+			return -1; // should never be this
+		}
+	}
+
+	// matrix*matrix or vector*matrix or matrix*vector multiply
+	// TODO add options parameter to specify the naive(default) or Strassen algorithm.
+	private static JpArray matrixMultiply(JpArray v, JpArray w) {
+		JpArray newArr = new JpArray(0., v.shape);
+		double sum = 0;
+		for(int i=0; i<v.shape[0]; i++) {
+			for(int j=0; j<w.shape[1]; j++) {
+				for(int k=0; k<w.shape[0]; k++) {
+					sum += v.getValue(i,k)*w.getValue(k,j);
+				}
+				newArr.setValue(sum, i, j);
+				sum = 0;
+			}
+		}
+		return newArr;
+	}
+	
+	// inner product
+	private static double innerProduct(JpArray v, JpArray w) {
+		double sum = 0;
+		for(int i=0; i<v.size; i++) {
+			sum += v.getValue(i)*w.getValue(i);
+		}
+		return sum;
 	}
 	
 	// true if dimensions of JpArray match by level and shape

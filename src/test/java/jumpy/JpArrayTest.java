@@ -32,8 +32,8 @@ public class JpArrayTest {
 				 v.setValue(j, i, j);
 			 }
 		 }
-		 Assert.assertEquals("Value at index not equal to the input value in setValue()", 2.0, v.getValue(2,2), 0.01);
-		 Assert.assertEquals("Value at index not equal to the input value in setValue()", 1.0, v.getValue(1,1), 0.01);
+		 Assert.assertEquals("Value at index not equal to the input value in setValue()!", 2.0, v.getValue(2,2), 0.01);
+		 Assert.assertEquals("Value at index not equal to the input value in setValue()!", 1.0, v.getValue(1,1), 0.01);
 	 }
 
 	 @Test
@@ -121,8 +121,8 @@ public class JpArrayTest {
 			 actualFlat2[i] = p.getValue(i);
 		 }
 		 
-		 Assert.assertArrayEquals(expectedFlat1, actualFlat1, 0.01);
-		 Assert.assertArrayEquals(expectedFlat2, actualFlat2, 0.01);
+		 Assert.assertArrayEquals("Resulting array after add does not match expected!", expectedFlat1, actualFlat1, 0.01);
+		 Assert.assertArrayEquals("Resulting array after add does not match expected!", expectedFlat2, actualFlat2, 0.01);
 		 JpArray z = JpArray.add(c, w); // should throw exception
 	 }
 	 
@@ -139,16 +139,53 @@ public class JpArrayTest {
 		 }
 		 JpArray q = JpArray.subtract(v, w);
 
-		 double[] expectedFlat1 = {0.,0.,0.,0.,0.,0.,0.,0.,0.};
-		 double[] actualFlat1 = new double[9];
+		 double[] expected = {0.,0.,0.,0.,0.,0.,0.,0.,0.};
+		 double[] actual = new double[9];
 		 int index = 0;
 		 // get actual results and store into a 1-D array representation of the Jparray
 		 for(int i=0; i<q.getShape()[0]; i++) {
 			 for(int j=0; j<q.getShape()[1]; j++) {
-				 actualFlat1[index] = q.getValue(i,j);
+				 actual[index] = q.getValue(i,j);
 				 index++;
 			 }
 		 }
-		 Assert.assertArrayEquals(expectedFlat1, actualFlat1, 0.01);
+		 Assert.assertArrayEquals("Resulting array after subtract does not match expected!", expected, actual, 0.01);
 	 }
+	 
+	 @Test
+	 public void dotInnerProductTest() {
+		 JpArray v = new JpArray(4.0, new int[] {5});
+		 JpArray w = new JpArray(4.0, new int[] {5});
+		 double expected = 80;
+		 double actual = (Double) JpArray.dot(v, w);
+		 Assert.assertEquals("Actual inner product value does not match expected!", expected, actual, 0.01);
+	 }
+	 
+	 @Test
+	 public void dotMatrixMultiplyTest() {
+		 JpArray v = new JpArray(0.0, new int[] {3,3});
+		 JpArray w = new JpArray(0.0, new int[] {3,3});
+		 int[] shape = v.getShape();
+		 for(int i=0; i<shape[0]; i++) {
+			 for(int j=0; j<shape[1]; j++) {
+				 v.setValue(2, i, j);
+				 w.setValue(3, i, j);
+			 }
+		 }
+		 JpArray q = (JpArray) JpArray.dot(v, w);
+		 v.printArray();
+		 w.printArray();
+		 double[] expected = {18.,18.,18.,18.,18.,18.,18.,18.,18.};
+		 double[] actual = new double[9];
+		 int index = 0;
+		 // get actual results and store into a 1-D array representation of the Jparray
+		 for(int i=0; i<q.getShape()[0]; i++) {
+			 for(int j=0; j<q.getShape()[1]; j++) {
+				 actual[index] = q.getValue(i,j);
+				 index++;
+			 }
+		 }
+		 Assert.assertArrayEquals("Resulting array after matrix multiply does not match expected!", expected, actual, 0.01);
+	 }
+	 
 }
