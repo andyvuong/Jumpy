@@ -309,4 +309,28 @@ public class JpArray {
 		return false;
 	}
 	
+	/**
+	 * Returns the maximum value in the JpArray.
+	 * @return the maximum value in the JpArray
+	 */
+	public double getMax() {
+		int[] elementsCopy = new int[size];
+		System.arraycopy(elements, 0, elementsCopy, 0, size);
+		Arrays.sort(elementsCopy);
+		return elementsCopy[size-1];
+	}
+
+	/**
+	 * Returns the minimum value in the JpArray.
+	 * @return the minimum value in the JpArray
+	 */
+	public double getMin() {
+		int[] elementsCopy = new int[size];
+		System.arraycopy(elements, 0, elementsCopy, 0, size);
+		Arrays.sort(elementsCopy);
+		return elementsCopy[0];
+	}
+	
+	
+
 }
