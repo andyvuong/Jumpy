@@ -27,8 +27,8 @@ public class JpArrayTest {
 	 public void setGetValueTest() { // should test both get and set
 		 JpArray v = new JpArray(2.0, new int[] {3,3});
 		 int[] shape = v.getShape();
-		 for(int i=0; i<shape[0]; i++) {
-			 for(int j=0; j<shape[1]; j++) {
+		 for (int i = 0; i < shape[0]; i++) {
+			 for (int j = 0; j < shape[1]; j++) {
 				 v.setValue(j, i, j);
 			 }
 		 }
@@ -40,8 +40,8 @@ public class JpArrayTest {
 	 public void transposeTest() {
 		 JpArray v = new JpArray(0.0, new int[] {3,3});
 		 int[] shape = v.getShape();
-		 for(int i=0; i<shape[0]; i++) {
-			 for(int j=0; j<shape[1]; j++) {
+		 for (int i = 0; i < shape[0]; i++) {
+			 for (int j = 0; j < shape[1]; j++) {
 				 v.setValue(j, i, j);
 			 }
 		 }
@@ -63,8 +63,8 @@ public class JpArrayTest {
 	 public void printTest() {
 		 JpArray v = new JpArray(0.0, new int[] {3,3});
 		 int[] shape = v.getShape();
-		 for(int i=0; i<shape[0]; i++) {
-			 for(int j=0; j<shape[1]; j++) {
+		 for (int i = 0; i < shape[0]; i++) {
+			 for (int j = 0; j < shape[1]; j++) {
 				 v.setValue(j, i, j);
 			 }
 		 }
@@ -95,8 +95,8 @@ public class JpArrayTest {
 		 JpArray b = new JpArray(8.0, new int[] {5});
 		 JpArray c = new JpArray(9.0, new int[] {3});
 		 int[] shape = v.getShape();
-		 for(int i=0; i<shape[0]; i++) {
-			 for(int j=0; j<shape[1]; j++) {
+		 for (int i = 0; i < shape[0]; i++) {
+			 for (int j = 0; j < shape[1]; j++) {
 				 v.setValue(j, i, j);
 				 w.setValue(j, i, j);
 			 }
@@ -111,13 +111,13 @@ public class JpArrayTest {
 		 double[] actualFlat2 = new double[5];
 		 int index = 0;
 		 // get actual results and store into a 1-D array representation of the Jparray
-		 for(int i=0; i<q.getShape()[0]; i++) {
-			 for(int j=0; j<q.getShape()[1]; j++) {
+		 for (int i = 0; i < q.getShape()[0]; i++) {
+			 for (int j = 0; j < q.getShape()[1]; j++) {
 				 actualFlat1[index] = q.getValue(i,j);
 				 index++;
 			 }
 		 }
-		 for(int i=0; i<p.getSize(); i++) {
+		 for (int i = 0; i < p.getSize(); i++) {
 			 actualFlat2[i] = p.getValue(i);
 		 }
 		 
@@ -131,8 +131,8 @@ public class JpArrayTest {
 		 JpArray v = new JpArray(0.0, new int[] {3,3});
 		 JpArray w = new JpArray(0.0, new int[] {3,3});
 		 int[] shape = v.getShape();
-		 for(int i=0; i<shape[0]; i++) {
-			 for(int j=0; j<shape[1]; j++) {
+		 for (int i = 0; i < shape[0]; i++) {
+			 for (int j = 0; j < shape[1]; j++) {
 				 v.setValue(j, i, j);
 				 w.setValue(j, i, j);
 			 }
@@ -143,8 +143,8 @@ public class JpArrayTest {
 		 double[] actual = new double[9];
 		 int index = 0;
 		 // get actual results and store into a 1-D array representation of the Jparray
-		 for(int i=0; i<q.getShape()[0]; i++) {
-			 for(int j=0; j<q.getShape()[1]; j++) {
+		 for (int i = 0; i < q.getShape()[0]; i++) {
+			 for (int j = 0; j < q.getShape()[1]; j++) {
 				 actual[index] = q.getValue(i,j);
 				 index++;
 			 }
@@ -166,8 +166,8 @@ public class JpArrayTest {
 		 JpArray v = new JpArray(0.0, new int[] {3,3});
 		 JpArray w = new JpArray(0.0, new int[] {3,3});
 		 int[] shape = v.getShape();
-		 for(int i=0; i<shape[0]; i++) {
-			 for(int j=0; j<shape[1]; j++) {
+		 for (int i = 0; i<shape[0]; i++) {
+			 for (int j = 0; j<shape[1]; j++) {
 				 v.setValue(2, i, j);
 				 w.setValue(3, i, j);
 			 }
@@ -179,8 +179,8 @@ public class JpArrayTest {
 		 double[] actual = new double[9];
 		 int index = 0;
 		 // get actual results and store into a 1-D array representation of the Jparray
-		 for(int i=0; i<q.getShape()[0]; i++) {
-			 for(int j=0; j<q.getShape()[1]; j++) {
+		 for (int i = 0; i < q.getShape()[0]; i++) {
+			 for (int j = 0; j < q.getShape()[1]; j++) {
 				 actual[index] = q.getValue(i,j);
 				 index++;
 			 }

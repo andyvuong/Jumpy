@@ -33,7 +33,7 @@ public class JpArray {
 		int dimensionLength = dim.length;
 		size = 1;
 		shape = new int[dimensionLength];
-		for(int i=0; i<dimensionLength; i++) {
+		for (int i = 0; i < dimensionLength; i++) {
 			shape[i] = dim[i];
 			size = size * dim[i];
 		}
@@ -45,13 +45,13 @@ public class JpArray {
 	// returns a double[] array of length size and populated with a value based on the provided option.
 	private double[] populateArray(Object option, int size) {
 		double[] newArr = new double[size];
-		if(option instanceof String) {
+		if (option instanceof String) {
 			int flag = 0;
 			String arg = (String) option;
-			if(arg.charAt(0) == 'r') {
+			if (arg.charAt(0) == 'r') {
 				flag = 1;
 			}
-			else if(arg.charAt(0) == 'w') {
+			else if (arg.charAt(0) == 'w') {
 				flag = 2;
 			}
 			else {
@@ -60,8 +60,8 @@ public class JpArray {
 			// generate random values to populate array
 			Random rand = new Random();
 			double value = 0;
-			for(int i=0; i<size; i++) {
-				if(flag == 1) {
+			for (int i = 0; i < size; i++) {
+				if (flag == 1) {
 					value = rand.nextDouble();
 					value = (double) Math.round(value * 100000) / 100000; // default 5 decimals
 				}
@@ -71,9 +71,9 @@ public class JpArray {
 				newArr[i] = value;
 			}			
 		}
-		else if(option instanceof Double) {
+		else if (option instanceof Double) {
 			double value = ((Double) option).doubleValue();
-			for(int i=0; i<size; i++) {
+			for(int i = 0; i < size; i++) {
 				newArr[i] = value;
 			}	
 		}
@@ -87,12 +87,12 @@ public class JpArray {
 	private int getIndex(int...indices) {
 		int index = 0;
 		int end = shape.length;
-		for(int i=0; i<indices.length; i++) {
+		for (int i = 0; i < indices.length; i++) {
 			int temp = 1;
-			for(int j=0; j<indices.length-(i+1); j++) {
-				temp = temp * shape[end - (j+1)];
+			for (int j = 0; j < indices.length - (i + 1); j++) {
+				temp = temp * shape[end - (j + 1)];
 			}
-			index += indices[i]*temp;
+			index += indices[i] * temp;
 		}
 		return index;
 	}
@@ -126,11 +126,11 @@ public class JpArray {
 	 * @return newArr The transposed JpArray.
 	 */
 	public JpArray transpose() {
-		if(shape.length > 1 && shape.length < 3) {
+		if (shape.length > 1 && shape.length < 3) {
 			int[] newShape = {shape[1], shape[0]};
 			JpArray newArr = new JpArray(0.0, newShape);
-			for(int i=0; i<shape[1]; i++) {
-				for(int j=0; j<shape[0]; j++) {
+			for (int i = 0; i < shape[1]; i++) {
+				for (int j = 0; j < shape[0]; j++) {
 					int[] oldInd = {i, j};
 					int[] newInd = {j, i};
 					newArr.setValue(this.getValue(oldInd), newInd);
@@ -161,17 +161,17 @@ public class JpArray {
 	 * Prints the JpArray. Currently only supported for 1-D and 2-D arrays.
 	 */
 	public void printArray() {
-		if(shape.length > 2) {
+		if (shape.length > 2) {
 			System.out.println("print() currently only supports 1-D and 2-D arrays!");
 		}
-		else if(shape.length == 1) {
+		else if (shape.length == 1) {
 			System.out.println(Arrays.toString(elements));
 		}
 		else {
 			String arrStr = "[";
-			for(int i=0; i<shape[0]; i++) {
+			for (int i = 0; i < shape[0]; i++) {
 				arrStr += "[";
-				for(int j=0; j<shape[1]; j++) {
+				for (int j = 0; j < shape[1]; j++) {
 					arrStr += Double.toString(this.getValue(i,j))+", "; // to string
 				}
 				arrStr += "]";
@@ -190,11 +190,11 @@ public class JpArray {
 	 * @return newArr The resulting JpArray
 	 */
 	public static JpArray add(JpArray v, JpArray w) {
-		if(!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
+		if (!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
 			throw new IllegalArgumentException("Shape/Dimension mis-match. JpArray arguments must be of 1-D or 2-D and have the same shapes.");
 		}
 		JpArray newArr = new JpArray(0.0, v.getShape());
-		for(int i=0; i<v.size; i++) {
+		for (int i = 0; i < v.size; i++) {
 			newArr.elements[i] = v.elements[i] + w.elements[i];
 		}
 		return newArr;
@@ -207,11 +207,11 @@ public class JpArray {
 	 * @return newArr The resulting JpArray
 	 */
 	public static JpArray subtract(JpArray v, JpArray w) {
-		if(!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
+		if (!shapesMatch(v,w) || v.shape.length > 2 || w.shape.length > 2) {
 			throw new IllegalArgumentException("Shape/Dimension mis-match. JpArray arguments must be of 1-D or 2-D and have the same shapes.");
 		}
 		JpArray newArr = new JpArray(0.0, v.getShape());
-		for(int i=0; i<v.size; i++) {
+		for (int i = 0; i < v.size; i++) {
 			newArr.elements[i] = v.elements[i] - w.elements[i];
 		}
 		return newArr;
@@ -230,11 +230,11 @@ public class JpArray {
 		}
 		try {
 			int bit = validateDimensions(v,w);
-			if(bit == 0) {
+			if (bit == 0) {
 				JpArray newArr = matrixMultiply(v, w);
 				return newArr;
 			}
-			else if(bit == 1) {
+			else if (bit == 1) {
 				Double value = innerProduct(v, w);
 				return value;
 			}
@@ -250,14 +250,14 @@ public class JpArray {
 	
 	// checks whether or not the dimensions of arrays are fine
 	private static int validateDimensions(JpArray v, JpArray w) throws IllegalArgumentException {
-		if(v.shape.length > 1) {
-			if(v.shape[1] != w.shape[0]) {
+		if (v.shape.length > 1) {
+			if (v.shape[1] != w.shape[0]) {
 				throw new IllegalArgumentException();
 			}
 			return 0;
 		}
-		else if(v.shape.length < 2) {
-			if(v.shape[0] != w.shape[0]) {
+		else if (v.shape.length < 2) {
+			if (v.shape[0] != w.shape[0]) {
 				throw new IllegalArgumentException();
 			}
 			return 1;
@@ -273,10 +273,10 @@ public class JpArray {
 	private static JpArray matrixMultiply(JpArray v, JpArray w) {
 		JpArray newArr = new JpArray(0., v.shape);
 		double sum = 0;
-		for(int i=0; i<v.shape[0]; i++) {
-			for(int j=0; j<w.shape[1]; j++) {
-				for(int k=0; k<w.shape[0]; k++) {
-					sum += v.getValue(i,k)*w.getValue(k,j);
+		for  (int i = 0; i < v.shape[0]; i++) {
+			for (int j = 0; j < w.shape[1]; j++) {
+				for (int k = 0; k < w.shape[0]; k++) {
+					sum += v.getValue(i,k) * w.getValue(k,j);
 				}
 				newArr.setValue(sum, i, j);
 				sum = 0;
@@ -288,8 +288,8 @@ public class JpArray {
 	// inner product
 	private static double innerProduct(JpArray v, JpArray w) {
 		double sum = 0;
-		for(int i=0; i<v.size; i++) {
-			sum += v.getValue(i)*w.getValue(i);
+		for (int i = 0; i < v.size; i++) {
+			sum += v.getValue(i) * w.getValue(i);
 		}
 		return sum;
 	}
@@ -298,9 +298,9 @@ public class JpArray {
 	private static boolean shapesMatch(JpArray v, JpArray w) {
 		int[] shape1 = v.shape;
 		int[] shape2 = w.shape;
-		if(shape1.length == shape2.length) {
-			for(int i=0; i<shape1.length; i++) {
-				if(shape1[i] != shape2[i]) {
+		if (shape1.length == shape2.length) {
+			for (int i = 0; i < shape1.length; i++) {
+				if (shape1[i] != shape2[i]) {
 					return false;
 				}
 			}
